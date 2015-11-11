@@ -11,14 +11,16 @@ public class DBEntry {
     private float X_acceleration;
     private float Y_acceleration;
     private float Z_acceleration;
+    private float jostle_index;
 
-    public DBEntry(String time, String state, boolean isMoving, float X_acceleration, float Y_acceleration, float Z_acceleration){
+    public DBEntry(String time, String state, boolean isMoving, float X_acceleration, float Y_acceleration, float Z_acceleration, float jostle_index){
         this.time = time;
         this.state = state;
         this.isMoving = isMoving;
         this.X_acceleration = X_acceleration;
         this.Y_acceleration = Y_acceleration;
         this.Z_acceleration = Z_acceleration;
+        this.jostle_index = jostle_index;
 
     }
 
@@ -68,6 +70,10 @@ public class DBEntry {
 
     public void setZ_acceleration(int z_acceleration) {
         Z_acceleration = z_acceleration;
+    }
+
+    public float getJostle_index() {
+        return jostle_index;
     }
 
 

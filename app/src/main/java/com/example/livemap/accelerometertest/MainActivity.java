@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+
 import java.text.SimpleDateFormat;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -35,6 +37,7 @@ public class MainActivity extends Activity implements SensorEventListener {
     private String state;
     private String start_recording_time;
     private Timer checkAcceleration;
+    private float jostle_index;
 
     private final double NOISE_THRESHOLD = 0.5;
     private final float ELAPSED_TIME_THRESHOLD = 3000;//3s
@@ -59,6 +62,7 @@ public class MainActivity extends Activity implements SensorEventListener {
         initializeViews();
 
         final DatabaseWrapper dbw = new DatabaseWrapper(this);
+        final VectorComputation vc = new VectorComputation();
         dbw.getWritableDatabase();
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -81,23 +85,24 @@ public class MainActivity extends Activity implements SensorEventListener {
                     state = "Accelerate";
                 }
                 if(isRecording){
-
-
-
                     SimpleDateFormat sdf = new SimpleDateFormat(TIME_FORMAT);
-
                     //Log.d(LOG, ""+ sdf.format(new Date()) + " " + state + " "+ isStopped+ " "+ accelerationX + " "+ accelerationY + " "+ accelerationZ);
                     String dt = sdf.format(new Date());
 
                     if (!started_recording)
                         start_recording_time = dt;
 
-                    DBEntry entry = new DBEntry(sdf.format(new Date()),state, isMoving, accelerationX,accelerationY,accelerationZ);
+                    vc.addVector(new Vector3D(accelerationX, accelerationY, accelerationZ));
+                    jostle_index = vc.getJostleIndex();
+//                    Log.d(LOG + " jostle index 1:", Float.toString(jostle_index));
+                    //create entry and add to local database
+                    DBEntry entry = new DBEntry(sdf.format(new Date()),state, isMoving, accelerationX,accelerationY,accelerationZ,jostle_index);
                     dbw.addDBEntry(entry);
 
+
+//                    Log.d(LOG+ " jostle index 2:", Float.toString(vc.getJostleIndex()));
                 }
                 started_recording = true;
-
             }
         }, 0, CHECK_RATE);
 
@@ -113,6 +118,8 @@ public class MainActivity extends Activity implements SensorEventListener {
                     started_recording = false;
                     startRB.setText("Start Recording");
                     dbw.logRecordings();
+//                    vc.printArray();
+//                    Log.d(LOG + " jostle index :", Float.toString(vc.getJostleIndex()));
                 }
 
             }
@@ -127,7 +134,6 @@ public class MainActivity extends Activity implements SensorEventListener {
                     isMoving = true;
                     busMB.setText("Bus Is Stopped");
                 }
-
             }
         });
 

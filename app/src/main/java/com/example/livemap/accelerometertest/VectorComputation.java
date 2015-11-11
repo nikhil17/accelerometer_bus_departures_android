@@ -1,6 +1,8 @@
 package com.example.livemap.accelerometertest;
 
 
+import android.util.Log;
+
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 /**
@@ -19,6 +21,7 @@ public class VectorComputation {
         VectorComputation vc = new VectorComputation();
         vc.addVector(new Vector3D(0,0,1));
         vc.addVector(new Vector3D(0,0,1));
+        System.out.println(vc.getJostleIndex());
         vc.addVector(new Vector3D(0,0,1));
         vc.addVector(new Vector3D(0,0,1));
 
@@ -43,7 +46,8 @@ public class VectorComputation {
 
     public void printArray(){
         for(int i = 0; i < arr.length; i++){
-            System.out.println(arr[i]);
+//            System.out.println(arr[i]);
+            Log.d("VectorComputation ", ""+i + " :"+ arr[i].toString());
         }
     }
 
@@ -53,7 +57,7 @@ public class VectorComputation {
      * @return the volume of the tetrahedron made using the 4 points in the Vector array
      * returns -1 if the buffer contains less than 4 values
      */
-    public double getJostleIndex(){
+    public float getJostleIndex(){
         if (size != arr.length -1)
             return -1;
         Vector3D A, B, C, D, AB, AC, AD;
@@ -65,7 +69,7 @@ public class VectorComputation {
         AC = A.subtract(C);
         AD = A.subtract(D);
 
-        return Math.abs(AD.dotProduct(AB.crossProduct(AC)))/6;
+        return (float)Math.abs(AD.dotProduct(AB.crossProduct(AC)))/6;
     }
 
     public void addVector(Vector3D v){

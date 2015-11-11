@@ -22,6 +22,7 @@ public class DatabaseWrapper extends SQLiteOpenHelper {
     private static final String X_ACCELERATION =  "x_acceleration";
     private static final String Y_ACCELERATION =  "y_acceleration";
     private static final String Z_ACCELERATION =  "z_acceleration";
+    private static final String JOSTLE_INDEX =  "jostle_index";
 
     private String LOG = "DatabaseWrapper";
 
@@ -34,7 +35,8 @@ public class DatabaseWrapper extends SQLiteOpenHelper {
     // creation SQLite statement
     private static final String DATABASE_CREATE = "create table " + TABLE_NAME
             + "(" + TIME + " TEXT primary key not null, "+ STATE +" Text not null, "+IS_MOVING +" INT not null," +
-            X_ACCELERATION+ " REAL not null, " +Y_ACCELERATION+ " REAL not null, "+ Z_ACCELERATION+ " REAL not null);";
+            X_ACCELERATION+ " REAL not null, " +Y_ACCELERATION+ " REAL not null, "+ Z_ACCELERATION+ " REAL not null, "
+            + JOSTLE_INDEX+" REAL);";
 
     // create table Recordings(Time TEXT primary key not null, State Text not null, isMoving INT not null,
     // X-Acceleration INT not null, Y-Acceleration INT not null, Z-Acceleration INT not null
@@ -80,6 +82,7 @@ public class DatabaseWrapper extends SQLiteOpenHelper {
         values.put(X_ACCELERATION, entry.getX_acceleration());
         values.put(Y_ACCELERATION, entry.getY_acceleration());
         values.put(Z_ACCELERATION, entry.getZ_acceleration());
+        values.put(JOSTLE_INDEX,entry.getJostle_index());
 
         db.insert(TABLE_NAME, null, values);
         db.close();
