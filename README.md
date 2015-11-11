@@ -2,6 +2,7 @@
 Accelerometer
 
 Old repository was here:
+
 https://github.gatech.edu/wtang45/Accelerometer
 https://github.gatech.edu/NextBUZZ/livemap/commits/Accelerometer
 
