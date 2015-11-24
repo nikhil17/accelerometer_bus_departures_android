@@ -111,6 +111,12 @@ public class DatabaseWrapper extends SQLiteOpenHelper {
     public void removeLastEntry(DBEntry entry){
         String query = "DELETE FROM "+ TABLE_NAME +" WHERE time > "+ entry.getTime();
         SQLiteDatabase db = this.getWritableDatabase();
+        db.rawQuery(query, null);
+    }
+
+    public void clearALL(){
+        String query = "DELETE FROM "+ TABLE_NAME;
+        SQLiteDatabase db = this.getWritableDatabase();
         db.rawQuery(query,null);
     }
 

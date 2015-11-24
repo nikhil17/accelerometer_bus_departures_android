@@ -1,7 +1,9 @@
 package com.example.livemap.accelerometertest;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -61,10 +63,12 @@ public class MainActivity extends Activity implements SensorEventListener {
         setContentView(R.layout.activity_main);
         initializeViews();
 
+
         final DatabaseWrapper dbw = new DatabaseWrapper(this);
         final VectorComputation vc = new VectorComputation();
         dbw.getWritableDatabase();
 
+        //Motion sensor
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         if (sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null) {
             // success! we have an accelerometer
@@ -73,6 +77,8 @@ public class MainActivity extends Activity implements SensorEventListener {
         } else {
             // fail
         }
+
+        //Query at every ELAPSED_TIME_THRESHOLD ms
         state = "Stop";
         checkAcceleration = new Timer();
         checkAcceleration.scheduleAtFixedRate(new TimerTask() {
@@ -106,6 +112,7 @@ public class MainActivity extends Activity implements SensorEventListener {
             }
         }, 0, CHECK_RATE);
 
+        //Recording button
         final Button startRB = (Button) findViewById(R.id.start_button);
         startRB.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -124,6 +131,8 @@ public class MainActivity extends Activity implements SensorEventListener {
 
             }
         });
+
+        //Bus state button
         final Button busMB = (Button) findViewById(R.id.busMotion_button);
         busMB.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -137,6 +146,29 @@ public class MainActivity extends Activity implements SensorEventListener {
             }
         });
 
+        //Clear db button
+        final Button clearButton = (Button) findViewById(R.id.clear_button);
+        clearButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle("Clear All")
+                        .setMessage("Are you sure you want to clear all data recorded?")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dbw.clearALL();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+
+            }
+        });
+
     }
 
     public void initializeViews() {
@@ -144,9 +176,6 @@ public class MainActivity extends Activity implements SensorEventListener {
         currentY = (TextView) findViewById(R.id.currentY);
         currentZ = (TextView) findViewById(R.id.currentZ);
         stateTextView = (TextView) findViewById(R.id.state);
-        maxX = (TextView) findViewById(R.id.maxX);
-        maxY = (TextView) findViewById(R.id.maxY);
-        maxZ = (TextView) findViewById(R.id.maxZ);
     }
 
     //onResume() register the accelerometer for listening the events
@@ -172,9 +201,6 @@ public class MainActivity extends Activity implements SensorEventListener {
         // clean current values
 //        displayCleanValues();
         // display the current x,y,z accelerometer values
-        displayCurrentValues();
-        // display the max x,y,z accelerometer values
-        displayMaxValues();
 
         // get the change of the x,y,z values of the accelerometer
         accelerationX = event.values[0];
@@ -211,22 +237,6 @@ public class MainActivity extends Activity implements SensorEventListener {
         currentY.setText(Float.toString(accelerationY));
         currentZ.setText(Float.toString(accelerationZ));
         stateTextView.setText(state);
-    }
-
-    // display the max x,y,z accelerometer values
-    public void displayMaxValues() {
-        if (accelerationX > deltaXMax) {
-            deltaXMax = accelerationX;
-            maxX.setText(Float.toString(deltaXMax));
-        }
-        if (accelerationY > deltaYMax) {
-            deltaYMax = accelerationY;
-            maxY.setText(Float.toString(deltaYMax));
-        }
-        if (accelerationZ > deltaZMax) {
-            deltaZMax = accelerationZ;
-            maxZ.setText(Float.toString(deltaZMax));
-        }
     }
 
 }

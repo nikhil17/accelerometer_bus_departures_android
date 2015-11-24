@@ -2,60 +2,39 @@
 <items version="2" >
 
     <item
-        jar="/Users/nikhil/AndroidStudioProjects/Accelerometer/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.0/jars/libs/internal_impl-23.1.0.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="8716243bf04bae8d6c9ca94d27b9a9be7236f0a3">
-        <dex dex="/Users/nikhil/AndroidStudioProjects/Accelerometer/app/build/intermediates/pre-dexed/debug/internal_impl-23.1.0-f33e290cd6892441ef70240d0ff66caaeea167f0.jar" />
-    </item>
-    <item
-        jar="/Users/nikhil/Fall_2015/VIP/accelerometer/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.0/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="ddde541c289c8b816a8f8fd6c325d80788c522a6">
-        <dex dex="/Users/nikhil/Fall_2015/VIP/accelerometer/app/build/intermediates/pre-dexed/debug/classes-2234fbf937343e58ace2f7a2e6e83df34d60be16.jar" />
-    </item>
-    <item
-        jar="/Users/nikhil/AndroidStudioProjects/Accelerometer/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/jars/classes.jar"
+        jar="C:\Users\Wendi\Documents\GitHub\accelerometer\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.1.0\jars\classes.jar"
         jumboMode="false"
         revision="23.0.1"
         sha1="57ae0d750ff83f0c738d21720224ac7ea866a094">
-        <dex dex="/Users/nikhil/AndroidStudioProjects/Accelerometer/app/build/intermediates/pre-dexed/debug/classes-757bdca7e809bcd4b726ea100680ae1388633fba.jar" />
+        <dex dex="C:\Users\Wendi\Documents\GitHub\accelerometer\app\build\intermediates\pre-dexed\debug\classes-f0d621892f4ebce94938962a0761dede1db9caa3.jar" />
     </item>
     <item
-        jar="/Users/nikhil/Fall_2015/VIP/accelerometer/libs/commons-math3-3.0.jar"
+        jar="C:\Users\Wendi\Documents\GitHub\accelerometer\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.0\jars\libs\internal_impl-23.1.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="8716243bf04bae8d6c9ca94d27b9a9be7236f0a3">
+        <dex dex="C:\Users\Wendi\Documents\GitHub\accelerometer\app\build\intermediates\pre-dexed\debug\internal_impl-23.1.0-4aee6132ddc7fbc412e0e96aba000549eb8fe1ea.jar" />
+    </item>
+    <item
+        jar="C:\Users\Wendi\Documents\GitHub\accelerometer\app\libs\commons-math3-3.0.jar"
         jumboMode="false"
         revision="23.0.1"
         sha1="5f8d1d720333aa9a7dee1c949ea70d9ed7da6106">
-        <dex dex="/Users/nikhil/Fall_2015/VIP/accelerometer/app/build/intermediates/pre-dexed/debug/commons-math3-3.0-cc6897d508443aa3e6a7d75d3f6813a198c69841.jar" />
+        <dex dex="C:\Users\Wendi\Documents\GitHub\accelerometer\app\build\intermediates\pre-dexed\debug\commons-math3-3.0-6aa496d19f10519c52bec5eeedb34b929444660a.jar" />
     </item>
     <item
-        jar="/Users/nikhil/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.1.0/support-annotations-23.1.0.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="92e3fc113ec3ee36b64603a38857b95700025633">
-        <dex dex="/Users/nikhil/AndroidStudioProjects/Accelerometer/app/build/intermediates/pre-dexed/debug/support-annotations-23.1.0-98922113c6640cc4669c539c7b60488b70258cbf.jar" />
-    </item>
-    <item
-        jar="/Users/nikhil/Fall_2015/VIP/accelerometer/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.0/jars/libs/internal_impl-23.1.0.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="8716243bf04bae8d6c9ca94d27b9a9be7236f0a3">
-        <dex dex="/Users/nikhil/Fall_2015/VIP/accelerometer/app/build/intermediates/pre-dexed/debug/internal_impl-23.1.0-c674156dfda9fb71d72c762c4426844d3b3b3684.jar" />
-    </item>
-    <item
-        jar="/Users/nikhil/AndroidStudioProjects/Accelerometer/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.0/jars/classes.jar"
+        jar="C:\Users\Wendi\Documents\GitHub\accelerometer\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.0\jars\classes.jar"
         jumboMode="false"
         revision="23.0.1"
         sha1="ddde541c289c8b816a8f8fd6c325d80788c522a6">
-        <dex dex="/Users/nikhil/AndroidStudioProjects/Accelerometer/app/build/intermediates/pre-dexed/debug/classes-256504009385f249037a25ae138b47eaf572f52d.jar" />
+        <dex dex="C:\Users\Wendi\Documents\GitHub\accelerometer\app\build\intermediates\pre-dexed\debug\classes-1978abdd9e165fea921e9810be7729274e3e8fca.jar" />
     </item>
     <item
-        jar="/Users/nikhil/Fall_2015/VIP/accelerometer/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/jars/classes.jar"
+        jar="D:\Applications\AndroidStudio\ANSDK\extras\android\m2repository\com\android\support\support-annotations\23.1.0\support-annotations-23.1.0.jar"
         jumboMode="false"
         revision="23.0.1"
-        sha1="57ae0d750ff83f0c738d21720224ac7ea866a094">
-        <dex dex="/Users/nikhil/Fall_2015/VIP/accelerometer/app/build/intermediates/pre-dexed/debug/classes-d03e150e2c2ff788562fde61eb329ff4dde8b702.jar" />
+        sha1="92e3fc113ec3ee36b64603a38857b95700025633">
+        <dex dex="C:\Users\Wendi\Documents\GitHub\accelerometer\app\build\intermediates\pre-dexed\debug\support-annotations-23.1.0-1faf4e23f1d797802d815583bf4c36ba73d1d555.jar" />
     </item>
 
 </items>
