@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 import java.text.SimpleDateFormat;
