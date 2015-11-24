@@ -137,10 +137,10 @@ public class MainActivity extends Activity implements SensorEventListener {
         busMB.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (isMoving) {
-                    isMoving = false;
+                    isMoving = true;
                     busMB.setText("Bus Is Moving");
                 } else {
-                    isMoving = true;
+                    isMoving = false;
                     busMB.setText("Bus Is Stopped");
                 }
             }
