@@ -19,6 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Date;
+import java.util.logging.Handler;
 
 public class MainActivity extends Activity implements SensorEventListener {
 
@@ -46,7 +47,8 @@ public class MainActivity extends Activity implements SensorEventListener {
     private final String TIME_FORMAT = "yyyy-MM-dd HH:mm:ss.SS";
 
 
-    private TextView currentX, currentY, currentZ, stateTextView, maxX, maxY, maxZ;
+    private TextView currentX, currentY, currentZ, stateTextView, maxX, maxY, maxZ,
+            currentTime, currentState, currentIs_moving, currentJostle, currentX1, currentY1, currentZ1;
 
     private boolean isRecording = false;
     private boolean started_recording = isRecording;
@@ -60,7 +62,6 @@ public class MainActivity extends Activity implements SensorEventListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initializeViews();
 
 
         final DatabaseWrapper dbw = new DatabaseWrapper(this);
@@ -83,6 +84,12 @@ public class MainActivity extends Activity implements SensorEventListener {
         checkAcceleration.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        initializeViews();
+                    }
+                });
                 elapsedTime = System.currentTimeMillis() - tLastChanged;
                 if (elapsedTime > ELAPSED_TIME_THRESHOLD) {
                     state = "Constant  speed";
@@ -103,8 +110,6 @@ public class MainActivity extends Activity implements SensorEventListener {
                     //create entry and add to local database
                     DBEntry entry = new DBEntry(sdf.format(new Date()),state, isMoving, accelerationX,accelerationY,accelerationZ,jostle_index);
                     dbw.addDBEntry(entry);
-
-
 //                    Log.d(LOG+ " jostle index 2:", Float.toString(vc.getJostleIndex()));
                 }
                 started_recording = true;
@@ -175,6 +180,15 @@ public class MainActivity extends Activity implements SensorEventListener {
         currentY = (TextView) findViewById(R.id.currentY);
         currentZ = (TextView) findViewById(R.id.currentZ);
         stateTextView = (TextView) findViewById(R.id.state);
+        currentTime = (TextView) findViewById(R.id.value_time);
+        currentJostle = (TextView) findViewById(R.id.value_jostle_index);
+
+        currentX.setText(String.format("%.2f", accelerationX));
+        currentY.setText(String.format("%.2f", accelerationY));
+        currentZ.setText(String.format("%.2f", accelerationZ));
+        stateTextView.setText(state);
+        currentTime.setText(new Date().toString());
+        currentJostle.setText(String.format("%.2f",jostle_index));
     }
 
     //onResume() register the accelerometer for listening the events
@@ -232,9 +246,9 @@ public class MainActivity extends Activity implements SensorEventListener {
 
     // display the current x,y,z accelerometer values
     public void displayCurrentValues() {
-        currentX.setText(Float.toString(accelerationX));
-        currentY.setText(Float.toString(accelerationY));
-        currentZ.setText(Float.toString(accelerationZ));
+        currentX.setText(String.format("%.2f", accelerationX));
+        currentY.setText(String.format("%.2f", accelerationY));
+        currentZ.setText(String.format("%.2f", accelerationZ));
         stateTextView.setText(state);
     }
 
