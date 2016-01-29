@@ -7,12 +7,62 @@
     android:gravity="center"
               android:paddingTop="20dp"
               android:orientation="vertical"
-              android:id="@+id/topLL">
+              android:id="@+id/topLL"
+    android:weightSum="1">
 
-    <FrameLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    </FrameLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Current Time"
+            android:id="@+id/textView"
+            android:layout_marginLeft="0dp"
+            android:autoText="false"
+            android:gravity="right"
+            android:layout_weight="0.33"
+            android:layout_marginBottom="0dp"
+            android:layout_gravity="center_horizontal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="0"
+            android:id="@+id/value_time"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0.33"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:textSize="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Jostle Index"
+            android:id="@+id/textView7"
+            android:layout_marginLeft="0dp"
+            android:gravity="right"
+            android:layout_gravity="top|center_horizontal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="0"
+            android:id="@+id/value_jostle_index"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0.33"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="20dp" />
+
+    </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
