@@ -116,8 +116,9 @@ public class DatabaseWrapper extends SQLiteOpenHelper {
 
     public void clearALL(){
         String query = "DELETE FROM "+ TABLE_NAME;
+        Log.d(LOG, "Clearing database contents");
         SQLiteDatabase db = this.getWritableDatabase();
-        db.rawQuery(query,null);
+        db.delete(TABLE_NAME, null, null);
     }
 
 }

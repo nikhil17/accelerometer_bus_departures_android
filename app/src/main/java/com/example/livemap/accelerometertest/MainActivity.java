@@ -10,6 +10,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -124,6 +125,7 @@ public class MainActivity extends Activity implements SensorEventListener {
                     isRecording = true;
 
                     startRB.setText("Stop Recording");
+
                 } else {
                     isRecording = false;
                     started_recording = false;
@@ -138,15 +140,21 @@ public class MainActivity extends Activity implements SensorEventListener {
 
         //Bus state button
         final Button busMB = (Button) findViewById(R.id.busMotion_button);
-        busMB.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (isMoving) {
+        busMB.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN){
+
                     isMoving = true;
-                    busMB.setText("Bus Is Moving");
-                } else {
-                    isMoving = false;
-                    busMB.setText("Bus Is Stopped");
+                    busMB.setText("Accelerating now");
+//                    Log.d(LOG, "isMoving :" + isMoving);
                 }
+                else if (event.getAction() == MotionEvent.ACTION_UP){
+//
+                    isMoving = false;
+                    busMB.setText("Not Accelerating now");
+//                    Log.d(LOG, "isMoving :" + isMoving);
+                }
+                return true;
             }
         });
 
