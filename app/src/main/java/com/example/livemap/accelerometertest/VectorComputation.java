@@ -35,10 +35,7 @@ public class VectorComputation {
 
     public VectorComputation(){
         arr = new Vector3D[ARRAY_SIZE];
-        addVector(new Vector3D(0, 0, 0));
-        addVector(new Vector3D(0, 0, 0));
-        addVector(new Vector3D(0, 0, 0));
-        addVector(new Vector3D(0, 0, 0));
+        initializeArray();
     }
 
     public void initializeArray(){
