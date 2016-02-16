@@ -27,9 +27,9 @@ public class MainActivity extends Activity implements SensorEventListener {
     private SensorManager sensorManager;
     private Sensor accelerometer;
 
-    private float deltaXMax = 0;
-    private float deltaYMax = 0;
-    private float deltaZMax = 0;
+    private float oldX = 0;
+    private float oldY = 0;
+    private float oldZ = 0;
 
     private float accelerationX = 0;
     private float accelerationY = 0;
@@ -37,15 +37,18 @@ public class MainActivity extends Activity implements SensorEventListener {
 
     private long tLastChanged = 0;
     private long elapsedTime = 0;
-    private String state;
+    private String state = "Constant speed";
     private String start_recording_time;
     private Timer checkAcceleration;
     private float jostle_index;
 
-    private final double NOISE_THRESHOLD = 0.5;
+    private final double NOISE_THRESHOLD = 0.4;
     private final float ELAPSED_TIME_THRESHOLD = 3000;//3s
     private final long CHECK_RATE = 200; //0.2s
     private final String TIME_FORMAT = "yyyy-MM-dd HH:mm:ss.SS";
+
+    private float JOSTLE_INDEX_UPPER_BOUND = 20.0f;
+    private float JOSTLE_INDEX_LOWER_BOUND = 3.0f;
 
 
     private TextView currentX, currentY, currentZ, stateTextView, maxX, maxY, maxZ,
@@ -58,6 +61,7 @@ public class MainActivity extends Activity implements SensorEventListener {
     private boolean old_isMoving = isMoving;
 
     private String LOG = "MainActivity-log";
+    VectorComputation vc;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,7 +70,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 
 
         final DatabaseWrapper dbw = new DatabaseWrapper(this);
-        final VectorComputation vc = new VectorComputation();
+        vc = new VectorComputation();
         dbw.getWritableDatabase();
 
         //Motion sensor
@@ -91,12 +95,7 @@ public class MainActivity extends Activity implements SensorEventListener {
                         initializeViews();
                     }
                 });
-                elapsedTime = System.currentTimeMillis() - tLastChanged;
-                if (elapsedTime > ELAPSED_TIME_THRESHOLD) {
-                    state = "Constant  speed";
-                } else {
-                    state = "Accelerate";
-                }
+
                 if(isRecording){
                     SimpleDateFormat sdf = new SimpleDateFormat(TIME_FORMAT);
                     //Log.d(LOG, ""+ sdf.format(new Date()) + " " + state + " "+ isStopped+ " "+ accelerationX + " "+ accelerationY + " "+ accelerationZ);
@@ -142,13 +141,12 @@ public class MainActivity extends Activity implements SensorEventListener {
         final Button busMB = (Button) findViewById(R.id.busMotion_button);
         busMB.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN){
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
 
                     isMoving = true;
                     busMB.setText("Accelerating now");
 //                    Log.d(LOG, "isMoving :" + isMoving);
-                }
-                else if (event.getAction() == MotionEvent.ACTION_UP){
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
 //
                     isMoving = false;
                     busMB.setText("Not Accelerating now");
@@ -196,7 +194,7 @@ public class MainActivity extends Activity implements SensorEventListener {
         currentZ.setText(String.format("%.2f", accelerationZ));
         stateTextView.setText(state);
         currentTime.setText(new Date().toString());
-        currentJostle.setText(String.format("%.2f",jostle_index));
+        currentJostle.setText(String.format("%.2f", jostle_index));
     }
 
     //onResume() register the accelerometer for listening the events
@@ -213,7 +211,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
+        Log.d(LOG,"Accuracy is :"+ accuracy);
     }
 
     @Override
@@ -224,6 +222,12 @@ public class MainActivity extends Activity implements SensorEventListener {
         // display the current x,y,z accelerometer values
 
         // get the change of the x,y,z values of the accelerometer
+
+
+        oldX = accelerationX;
+        oldY = accelerationY;
+        oldZ = accelerationZ;
+
         accelerationX = event.values[0];
         accelerationY = event.values[1];
         accelerationZ = event.values[2];
@@ -241,8 +245,27 @@ public class MainActivity extends Activity implements SensorEventListener {
             accelerationZ = 0;
         else
             changed = true;
-        if(changed)
-            tLastChanged = System.currentTimeMillis();
+
+//        if (accelerationX == 0 && accelerationY == 0 && accelerationZ == 0){
+//            // change this to accelerating from
+//            state = "Constant acceleration";
+//        }
+
+        if(accelerationX == 0 && accelerationY == 0 && accelerationZ == 0){
+            state = "Constant acceleration";
+        }
+        else if(vc.containsZeroVector()){
+//            Log.d("Contains zero vector :", "" + vc.containsZeroVector());
+//            Log.d(LOG,"current jostle index :" + jostle_index);
+            if(jostle_index > JOSTLE_INDEX_LOWER_BOUND && jostle_index < JOSTLE_INDEX_UPPER_BOUND){
+                state = "Departing";
+                Log.d(LOG,"ACCELERATING FROM START RIGHT NOW!!");
+                System.out.println("YOOOOO");
+            }
+        }
+        else{
+            state = "Randomly Accelerating";
+        }
 
     }
 

@@ -35,13 +35,18 @@ public class VectorComputation {
 
     public VectorComputation(){
         arr = new Vector3D[ARRAY_SIZE];
-        initializeArray();
+        addVector(new Vector3D(0, 0, 0));
+        addVector(new Vector3D(0, 0, 0));
+        addVector(new Vector3D(0, 0, 0));
+        addVector(new Vector3D(0, 0, 0));
     }
 
     public void initializeArray(){
-        for (int i = 0; i < arr.length; i++) {
-            arr[i] = null;
-        }
+        addVector(new Vector3D(0,0,0));
+        addVector(new Vector3D(0,0,0));
+        addVector(new Vector3D(0,0,0));
+        addVector(new Vector3D(0,0,0));
+
     }
 
     public void printArray(){
@@ -69,8 +74,45 @@ public class VectorComputation {
         AC = A.subtract(C);
         AD = A.subtract(D);
 
-        return (float)Math.abs(AD.dotProduct(AB.crossProduct(AC)))/6;
+//        return (float)Math.abs(AD.dotProduct(AB.crossProduct(AC)))/6;
+
+        return getJostleIndexDistance();
     }
+
+    //uses vector distance formula to sum the distance of all the vectors from the origin
+    public float getJostleIndexDistance(){
+        Vector3D a = arr[0];
+        Vector3D b = arr[1];
+        Vector3D c = arr[2];
+        Vector3D d = arr[3];
+
+        double distance = getVectorMagnitude(a) + getVectorMagnitude(b) + getVectorMagnitude(c) + getVectorMagnitude(d);
+        return (float) distance;
+    }
+
+    //checks if the backing array contains an element representing zero acceleration
+    public boolean containsZeroVector(){
+        for (Vector3D v: arr){
+            if (v.getX() == 0){
+                if (v.getY() == 0){
+                    if (v.getZ() == 0){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public double getVectorMagnitude(Vector3D v){
+        double x = v.getX();
+        double y = v.getY();
+        double z = v.getZ();
+
+        return Math.sqrt(x*x + y*y + z*z);
+    }
+
+
 
     public void addVector(Vector3D v){
         if(size == -1){
