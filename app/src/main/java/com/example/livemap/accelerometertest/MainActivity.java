@@ -42,9 +42,9 @@ public class MainActivity extends Activity implements SensorEventListener {
     private Timer checkAcceleration;
     private float jostle_index;
 
-    private final double NOISE_THRESHOLD = 0.4;
+    private final double NOISE_THRESHOLD = 0.5;
     private final float ELAPSED_TIME_THRESHOLD = 3000;//3s
-    private final long CHECK_RATE = 200; //0.2s
+    private final long CHECK_RATE = 300; //0.3s
     private final String TIME_FORMAT = "yyyy-MM-dd HH:mm:ss.SS";
 
     private float JOSTLE_INDEX_UPPER_BOUND = 20.0f;
@@ -96,6 +96,8 @@ public class MainActivity extends Activity implements SensorEventListener {
                     }
                 });
 
+                vc.addVector(new Vector3D(accelerationX, accelerationY, accelerationZ));
+                jostle_index = vc.getJostleIndex();
                 if(isRecording){
                     SimpleDateFormat sdf = new SimpleDateFormat(TIME_FORMAT);
                     //Log.d(LOG, ""+ sdf.format(new Date()) + " " + state + " "+ isStopped+ " "+ accelerationX + " "+ accelerationY + " "+ accelerationZ);
@@ -104,14 +106,16 @@ public class MainActivity extends Activity implements SensorEventListener {
                     if (!started_recording)
                         start_recording_time = dt;
 
-                    vc.addVector(new Vector3D(accelerationX, accelerationY, accelerationZ));
-                    jostle_index = vc.getJostleIndex();
+
 //                    Log.d(LOG + " jostle index 1:", Float.toString(jostle_index));
                     //create entry and add to local database
                     DBEntry entry = new DBEntry(sdf.format(new Date()),state, isMoving, accelerationX,accelerationY,accelerationZ,jostle_index);
                     dbw.addDBEntry(entry);
 //                    Log.d(LOG+ " jostle index 2:", Float.toString(vc.getJostleIndex()));
                 }
+
+
+
                 started_recording = true;
             }
         }, 0, CHECK_RATE);
@@ -211,7 +215,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        Log.d(LOG,"Accuracy is :"+ accuracy);
+//        Log.d(LOG,"Accuracy is :"+ accuracy);
     }
 
     @Override
@@ -244,7 +248,7 @@ public class MainActivity extends Activity implements SensorEventListener {
         if(Math.abs(accelerationZ) < NOISE_THRESHOLD)
             accelerationZ = 0;
         else
-            changed = true;
+            changed = false;
 
 //        if (accelerationX == 0 && accelerationY == 0 && accelerationZ == 0){
 //            // change this to accelerating from
@@ -260,7 +264,7 @@ public class MainActivity extends Activity implements SensorEventListener {
             if(jostle_index > JOSTLE_INDEX_LOWER_BOUND && jostle_index < JOSTLE_INDEX_UPPER_BOUND){
                 state = "Departing";
                 Log.d(LOG,"ACCELERATING FROM START RIGHT NOW!!");
-                System.out.println("YOOOOO");
+//                System.out.println("YOOOOO");
             }
         }
         else{

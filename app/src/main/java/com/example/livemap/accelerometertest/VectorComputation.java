@@ -93,6 +93,7 @@ public class VectorComputation {
             if (v.getX() == 0){
                 if (v.getY() == 0){
                     if (v.getZ() == 0){
+                        Log.d("Zero vector xyz values", "" + v.getX() +" "+ v.getY() + " " + v.getZ());
                         return true;
                     }
                 }
