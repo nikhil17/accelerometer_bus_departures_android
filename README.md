@@ -19,17 +19,17 @@ git clone https://github.gatech.edu/NextBUZZ/accelerometer
 Open Android Studio and import the project (File -> New-> Import Project)
 
 
-Database Access
+#Database Access
 The recorded data is stored on an internal SQLite database. This database can be accessed through a shell. To access the local database on an Android phone first install ADB (Android Debug Bridge).
 
-How to copy .db file to current directory on your computer
+How to copy database to current directory- 
 
-#Type this in one terminal 
+Type this in one terminal 
 adb shell 
 run-as com.example.livemap.accelerometertest
 cp databases/accelerometer_readings.db /sdcard
 
-#In another terminal
+In another terminal
 adb pull /sdcard/accelerometer_readings.db .
 
 
