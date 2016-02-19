@@ -18,7 +18,9 @@ public class DatabaseWrapper extends SQLiteOpenHelper {
     //column names
     private static final String TIME =  "time";
     private static final String STATE =  "state";
-    private static final String IS_MOVING =  "Is_Moving";
+    private static final String IS_DEPARTING =  "IS_DEPARTING";
+    private static final String SAMPLE_RATE =  "SAMPLE_RATE";
+    private static final String NOISE_THRESHOLD =  "NOISE_THRESHOLD";
     private static final String X_ACCELERATION =  "x_acceleration";
     private static final String Y_ACCELERATION =  "y_acceleration";
     private static final String Z_ACCELERATION =  "z_acceleration";
@@ -34,14 +36,15 @@ public class DatabaseWrapper extends SQLiteOpenHelper {
 
     // creation SQLite statement
     private static final String DATABASE_CREATE = "create table " + TABLE_NAME
-            + "(" + TIME + " TEXT primary key not null, "+ STATE +" Text not null, "+IS_MOVING +" INT not null," +
-            X_ACCELERATION+ " REAL not null, " +Y_ACCELERATION+ " REAL not null, "+ Z_ACCELERATION+ " REAL not null, "
-            + JOSTLE_INDEX+" REAL);";
+            + "(" + TIME + " TEXT primary key not null, "+ STATE +" Text not null, "+IS_DEPARTING +" INT not null," + SAMPLE_RATE +
+            " INT not null, "+ NOISE_THRESHOLD+ " REAL not null, " +X_ACCELERATION+ " REAL not null, " +Y_ACCELERATION+ " REAL not null, "+ Z_ACCELERATION+
+            " REAL not null, " + JOSTLE_INDEX+" REAL);";
 
-    // create table Recordings(Time TEXT primary key not null, State Text not null, isMoving INT not null,
+    // create table Recordings(Time TEXT primary key not null, State Text not null, isDeparting INT not null,
     // X-Acceleration INT not null, Y-Acceleration INT not null, Z-Acceleration INT not null
     public DatabaseWrapper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+//        context.deleteDatabase(DATABASE_NAME);
     }
 
     @Override
@@ -78,7 +81,9 @@ public class DatabaseWrapper extends SQLiteOpenHelper {
         Log.d(LOG,"inserting new value into database");
         values.put(TIME, entry.getTime());
         values.put(STATE, entry.getState());
-        values.put(IS_MOVING,(entry.isMoving())? 1:0);
+        values.put(IS_DEPARTING,(entry.isDeparting())? 1:0);
+        values.put(SAMPLE_RATE,entry.getSampleRate());
+        values.put(NOISE_THRESHOLD,entry.getNoiseThreshold());
         values.put(X_ACCELERATION, entry.getX_acceleration());
         values.put(Y_ACCELERATION, entry.getY_acceleration());
         values.put(Z_ACCELERATION, entry.getZ_acceleration());

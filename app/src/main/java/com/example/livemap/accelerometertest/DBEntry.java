@@ -1,5 +1,7 @@
 package com.example.livemap.accelerometertest;
 
+import android.util.Log;
+
 /**
  * Created by nikhil on 11/5/15.
  */
@@ -7,21 +9,25 @@ public class DBEntry {
 
     private String time;
     private String state;
-    private boolean isMoving;
+    private boolean isDeparting;
+    private int sampleRate;
+    private double noiseThreshold;
     private float X_acceleration;
     private float Y_acceleration;
     private float Z_acceleration;
     private float jostle_index;
 
-    public DBEntry(String time, String state, boolean isMoving, float X_acceleration, float Y_acceleration, float Z_acceleration, float jostle_index){
+    public DBEntry(String time, String state, boolean isDeparting, int sampleRate, double noiseThreshold,float X_acceleration, float Y_acceleration, float Z_acceleration, float jostle_index){
         this.time = time;
         this.state = state;
-        this.isMoving = isMoving;
+        this.isDeparting = isDeparting;
+        this.sampleRate = sampleRate;
+        this.noiseThreshold = noiseThreshold;
         this.X_acceleration = X_acceleration;
         this.Y_acceleration = Y_acceleration;
         this.Z_acceleration = Z_acceleration;
         this.jostle_index = jostle_index;
-
+//        Log.d("Sample rate :", "" + sampleRate);
     }
 
     public String getTime() {
@@ -32,6 +38,10 @@ public class DBEntry {
         this.time = time;
     }
 
+    public void setSampleRate(int sampleRate) {
+        this.sampleRate = sampleRate;
+    }
+
     public String getState() {
         return state;
     }
@@ -40,12 +50,20 @@ public class DBEntry {
         this.state = state;
     }
 
-    public boolean isMoving() {
-        return isMoving;
+    public boolean isDeparting() {
+        return isDeparting;
     }
 
-    public void setIsMoving(boolean isMoving) {
-        this.isMoving = isMoving;
+    public void setisDeparting(boolean isDeparting) {
+        this.isDeparting = isDeparting;
+    }
+
+
+    public double getNoiseThreshold() {
+        return noiseThreshold;
+    }
+    public float getSampleRate() {
+        return sampleRate;
     }
 
     public float getX_acceleration() {
@@ -78,7 +96,7 @@ public class DBEntry {
 
 
 
-//            (Time TEXT primary key not null, State Text not null, isMoving INT not null," +
+//            (Time TEXT primary key not null, State Text not null, isDeparting INT not null," +
 //                    " X-Acceleration INT not null, Y-Acceleration INT not null, Z-Acceleration INT not null);";
 
 

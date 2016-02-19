@@ -44,7 +44,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 
     private final double NOISE_THRESHOLD = 0.5;
     private final float ELAPSED_TIME_THRESHOLD = 3000;//3s
-    private final long CHECK_RATE = 300; //0.3s
+    private final int sample_rate = 300; //0.3s
     private final String TIME_FORMAT = "yyyy-MM-dd HH:mm:ss.SS";
 
     private float JOSTLE_INDEX_UPPER_BOUND = 20.0f;
@@ -57,8 +57,8 @@ public class MainActivity extends Activity implements SensorEventListener {
     private boolean isRecording = false;
     private boolean started_recording = isRecording;
 
-    private boolean isMoving = false;
-    private boolean old_isMoving = isMoving;
+    private boolean isDeparting = false;
+    private boolean old_isDeparting = isDeparting;
 
     private String LOG = "MainActivity-log";
     VectorComputation vc;
@@ -109,7 +109,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 
 //                    Log.d(LOG + " jostle index 1:", Float.toString(jostle_index));
                     //create entry and add to local database
-                    DBEntry entry = new DBEntry(sdf.format(new Date()),state, isMoving, accelerationX,accelerationY,accelerationZ,jostle_index);
+                    DBEntry entry = new DBEntry(sdf.format(new Date()),state, isDeparting,sample_rate,NOISE_THRESHOLD, accelerationX,accelerationY,accelerationZ,jostle_index);
                     dbw.addDBEntry(entry);
 //                    Log.d(LOG+ " jostle index 2:", Float.toString(vc.getJostleIndex()));
                 }
@@ -118,7 +118,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 
                 started_recording = true;
             }
-        }, 0, CHECK_RATE);
+        }, 0, sample_rate);
 
         //Recording button
         final Button startRB = (Button) findViewById(R.id.start_button);
@@ -147,14 +147,14 @@ public class MainActivity extends Activity implements SensorEventListener {
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
 
-                    isMoving = true;
+                    isDeparting = true;
                     busMB.setText("Accelerating now");
-//                    Log.d(LOG, "isMoving :" + isMoving);
+//                    Log.d(LOG, "isDeparting :" + isDeparting);
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
 //
-                    isMoving = false;
+                    isDeparting = false;
                     busMB.setText("Not Accelerating now");
-//                    Log.d(LOG, "isMoving :" + isMoving);
+//                    Log.d(LOG, "isDeparting :" + isDeparting);
                 }
                 return true;
             }
