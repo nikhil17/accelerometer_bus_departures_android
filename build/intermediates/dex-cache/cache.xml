@@ -2,39 +2,39 @@
 <items version="2" >
 
     <item
-        jar="/Users/nikhil/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-math3/3.6/825c90790e83af784be1de0a3f3a9f066cf884b9/commons-math3-3.6.jar"
+        jar="/Users/Seung/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-math3/3.6/825c90790e83af784be1de0a3f3a9f066cf884b9/commons-math3-3.6.jar"
         jumboMode="false"
         revision="23.0.1"
         sha1="825c90790e83af784be1de0a3f3a9f066cf884b9">
-        <dex dex="/Users/nikhil/Classes/Spring_2016/VIP/accelerometer/app/build/intermediates/pre-dexed/debug/commons-math3-3.6-2e0516cb3425368ff078db81b7a818228d4671d7.jar" />
+        <dex dex="/Users/Seung/Developer/accelerometer/app/build/intermediates/pre-dexed/debug/commons-math3-3.6-737437fb9b76a8e08150cdbf5ba3041ef2249e3a.jar" />
     </item>
     <item
-        jar="/Users/nikhil/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.1.0/support-annotations-23.1.0.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="92e3fc113ec3ee36b64603a38857b95700025633">
-        <dex dex="/Users/nikhil/Classes/Spring_2016/VIP/accelerometer/app/build/intermediates/pre-dexed/debug/support-annotations-23.1.0-98922113c6640cc4669c539c7b60488b70258cbf.jar" />
-    </item>
-    <item
-        jar="/Users/nikhil/Classes/Spring_2016/VIP/accelerometer/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.0/jars/libs/internal_impl-23.1.0.jar"
+        jar="/Users/Seung/Developer/accelerometer/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.0/jars/libs/internal_impl-23.1.0.jar"
         jumboMode="false"
         revision="23.0.1"
         sha1="8716243bf04bae8d6c9ca94d27b9a9be7236f0a3">
-        <dex dex="/Users/nikhil/Classes/Spring_2016/VIP/accelerometer/app/build/intermediates/pre-dexed/debug/internal_impl-23.1.0-338ce87f6ce1c394149a072de2cf001ecba801f8.jar" />
+        <dex dex="/Users/Seung/Developer/accelerometer/app/build/intermediates/pre-dexed/debug/internal_impl-23.1.0-a2f1ceda2b945d28758094b3fc9bc14fafc3fcd2.jar" />
     </item>
     <item
-        jar="/Users/nikhil/Classes/Spring_2016/VIP/accelerometer/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.0/jars/classes.jar"
+        jar="/Users/Seung/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.1.0/support-annotations-23.1.0.jar"
         jumboMode="false"
         revision="23.0.1"
-        sha1="ddde541c289c8b816a8f8fd6c325d80788c522a6">
-        <dex dex="/Users/nikhil/Classes/Spring_2016/VIP/accelerometer/app/build/intermediates/pre-dexed/debug/classes-f1d7e1bd24a46c8ff2b709fc50156d7119811a89.jar" />
+        sha1="92e3fc113ec3ee36b64603a38857b95700025633">
+        <dex dex="/Users/Seung/Developer/accelerometer/app/build/intermediates/pre-dexed/debug/support-annotations-23.1.0-ea88bda265a56aa714c4154d10eea82986d6bfa0.jar" />
     </item>
     <item
-        jar="/Users/nikhil/Classes/Spring_2016/VIP/accelerometer/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/jars/classes.jar"
+        jar="/Users/Seung/Developer/accelerometer/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/jars/classes.jar"
         jumboMode="false"
         revision="23.0.1"
         sha1="57ae0d750ff83f0c738d21720224ac7ea866a094">
-        <dex dex="/Users/nikhil/Classes/Spring_2016/VIP/accelerometer/app/build/intermediates/pre-dexed/debug/classes-4e85d423045c90298e0ed58490b776c4a523b1dd.jar" />
+        <dex dex="/Users/Seung/Developer/accelerometer/app/build/intermediates/pre-dexed/debug/classes-fa8eb38f29ed5919085769cd2fb396e9b5d70400.jar" />
+    </item>
+    <item
+        jar="/Users/Seung/Developer/accelerometer/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="ddde541c289c8b816a8f8fd6c325d80788c522a6">
+        <dex dex="/Users/Seung/Developer/accelerometer/app/build/intermediates/pre-dexed/debug/classes-9330f909cd2975aa52aa4d9ee711c2aa2ca335d8.jar" />
     </item>
 
 </items>

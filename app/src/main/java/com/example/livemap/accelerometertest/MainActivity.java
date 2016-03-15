@@ -2,6 +2,7 @@ package com.example.livemap.accelerometertest;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.hardware.Sensor;
@@ -9,10 +10,12 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
@@ -42,9 +45,9 @@ public class MainActivity extends Activity implements SensorEventListener {
     private Timer checkAcceleration;
     private float jostle_index;
 
-    private final double NOISE_THRESHOLD = 0.5;
+    private double NOISE_THRESHOLD = 0.5;
     private final float ELAPSED_TIME_THRESHOLD = 3000;//3s
-    private final int sample_rate = 300; //0.3s
+    private int sample_rate = 300; //0.3s
     private final String TIME_FORMAT = "yyyy-MM-dd HH:mm:ss.SS";
 
     private float JOSTLE_INDEX_UPPER_BOUND = 20.0f;
@@ -62,6 +65,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 
     private String LOG = "MainActivity-log";
     VectorComputation vc;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -98,7 +102,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 
                 vc.addVector(new Vector3D(accelerationX, accelerationY, accelerationZ));
                 jostle_index = vc.getJostleIndex();
-                if(isRecording){
+                if (isRecording) {
                     SimpleDateFormat sdf = new SimpleDateFormat(TIME_FORMAT);
                     //Log.d(LOG, ""+ sdf.format(new Date()) + " " + state + " "+ isStopped+ " "+ accelerationX + " "+ accelerationY + " "+ accelerationZ);
                     String dt = sdf.format(new Date());
@@ -109,11 +113,10 @@ public class MainActivity extends Activity implements SensorEventListener {
 
 //                    Log.d(LOG + " jostle index 1:", Float.toString(jostle_index));
                     //create entry and add to local database
-                    DBEntry entry = new DBEntry(sdf.format(new Date()),state, isDeparting,sample_rate,NOISE_THRESHOLD, accelerationX,accelerationY,accelerationZ,jostle_index);
+                    DBEntry entry = new DBEntry(sdf.format(new Date()), state, isDeparting, sample_rate, NOISE_THRESHOLD, accelerationX, accelerationY, accelerationZ, jostle_index);
                     dbw.addDBEntry(entry);
 //                    Log.d(LOG+ " jostle index 2:", Float.toString(vc.getJostleIndex()));
                 }
-
 
 
                 started_recording = true;
@@ -179,6 +182,83 @@ public class MainActivity extends Activity implements SensorEventListener {
                         })
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .show();
+
+            }
+        });
+
+
+        final Button changeSampleRateButton = (Button) findViewById(R.id.button_sample);
+        changeSampleRateButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                final EditText input = new EditText(MainActivity.this);
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle("Change Sample Rate")
+                        .setView(input)
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                sample_rate = Integer.valueOf(input.getText().toString());
+                                //Log.d(LOG, "sample rate :" + sample_rate);
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+
+            }
+        });
+
+        final Button changeJIThresholdButton = (Button) findViewById(R.id.button_jiThreshold);
+        changeJIThresholdButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                final EditText input = new EditText(MainActivity.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("Change Jostle Index Threshold");
+                input.setInputType(InputType.TYPE_CLASS_TEXT);
+                builder.setView(input);
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        JOSTLE_INDEX_LOWER_BOUND = Float.valueOf(input.getText().toString());
+                        Log.d(LOG, "JOSTLE_INDEX_LOWER_BOUND :" + JOSTLE_INDEX_LOWER_BOUND);
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                builder.show();
+
+            }
+        });
+
+        final Button changeNoiseThresholdButton = (Button) findViewById(R.id.button_noiseThreshold);
+        changeNoiseThresholdButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                final EditText input = new EditText(MainActivity.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("Change Noise Threshold");
+                input.setInputType(InputType.TYPE_CLASS_TEXT);
+                builder.setView(input);
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        NOISE_THRESHOLD = Double.valueOf(input.getText().toString());
+                        Log.d(LOG, "NOISE THRESHOLD :" + NOISE_THRESHOLD);
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                builder.show();
 
             }
         });
