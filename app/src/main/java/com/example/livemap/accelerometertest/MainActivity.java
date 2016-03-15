@@ -47,7 +47,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 
     private double NOISE_THRESHOLD = 0.5;
     private final float ELAPSED_TIME_THRESHOLD = 3000;//3s
-    private int sample_rate = 300; //0.3s
+    private int sample_rate = 250; //0.3s
     private final String TIME_FORMAT = "yyyy-MM-dd HH:mm:ss.SS";
 
     private float JOSTLE_INDEX_UPPER_BOUND = 20.0f;
@@ -196,7 +196,16 @@ public class MainActivity extends Activity implements SensorEventListener {
                         .setView(input)
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                sample_rate = Integer.valueOf(input.getText().toString());
+                                try {
+                                    sample_rate = Integer.parseInt(input.getText().toString());
+                                }
+                                catch(NumberFormatException nf){
+                                    new AlertDialog.Builder(MainActivity.this)
+                                            .setTitle("Error")
+                                            .setMessage("Bad input passed in")
+                                            .setIcon(android.R.drawable.ic_dialog_alert)
+                                            .show();
+                                }
                                 //Log.d(LOG, "sample rate :" + sample_rate);
                             }
                         })
@@ -222,7 +231,15 @@ public class MainActivity extends Activity implements SensorEventListener {
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        JOSTLE_INDEX_LOWER_BOUND = Float.valueOf(input.getText().toString());
+                        try {
+                            JOSTLE_INDEX_LOWER_BOUND = Float.parseFloat(input.getText().toString());
+                        } catch (NumberFormatException nf) {
+                            new AlertDialog.Builder(MainActivity.this)
+                                    .setTitle("Error")
+                                    .setMessage("Bad input passed in")
+                                    .setIcon(android.R.drawable.ic_dialog_alert)
+                                    .show();
+                        }
                         Log.d(LOG, "JOSTLE_INDEX_LOWER_BOUND :" + JOSTLE_INDEX_LOWER_BOUND);
                     }
                 });
@@ -248,7 +265,17 @@ public class MainActivity extends Activity implements SensorEventListener {
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        NOISE_THRESHOLD = Double.valueOf(input.getText().toString());
+                        try {
+                            NOISE_THRESHOLD = Double.parseDouble(input.getText().toString());
+
+                        } catch (NumberFormatException nf) {
+                            new AlertDialog.Builder(MainActivity.this)
+                                    .setTitle("Error")
+                                    .setMessage("Bad input passed in")
+                                    .setIcon(android.R.drawable.ic_dialog_alert)
+                                    .show();
+                        }
+
                         Log.d(LOG, "NOISE THRESHOLD :" + NOISE_THRESHOLD);
                     }
                 });
