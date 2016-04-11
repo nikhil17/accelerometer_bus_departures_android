@@ -16,14 +16,24 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 
+
+import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+
+//
+//import com.google.android.gms.common.ConnectionResult;
+//import com.google.android.gms.common.api.GoogleApiClient;
+//import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
+//import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+//import com.google.android.gms.location.LocationServices;
 
 import java.text.SimpleDateFormat;
 import java.util.Timer;
@@ -70,6 +80,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 
     private String LOG = "MainActivity-log";
     VectorComputation vc;
+    private Location location;
 
 
     @Override
@@ -77,6 +88,7 @@ public class MainActivity extends Activity implements SensorEventListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         final DatabaseWrapper dbw = new DatabaseWrapper(this);
         vc = new VectorComputation();
@@ -91,6 +103,8 @@ public class MainActivity extends Activity implements SensorEventListener {
         } else {
             // fail
         }
+
+
 
         // Acquire a reference to the system Location Manager
         LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);

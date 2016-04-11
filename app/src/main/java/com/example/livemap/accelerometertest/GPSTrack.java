@@ -39,7 +39,7 @@ public class GPSTrack extends Service implements LocationListener {
 
     public GPSTrack(Context context) {
         this.context = context;
-        getLocation();
+        location = getLocation();
     }
 
     @TargetApi(Build.VERSION_CODES.M)

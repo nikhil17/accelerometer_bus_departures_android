@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.livemap.accelerometertest" >
-<<<<<<< HEAD
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 =======
     
@@ -11,7 +10,6 @@
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
->>>>>>> ebb02e715f260648ee0c8d60f06da69e6ff9a7dc
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
