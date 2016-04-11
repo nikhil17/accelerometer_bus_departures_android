@@ -1,15 +1,21 @@
 package com.example.livemap.accelerometertest;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+
 import android.text.InputType;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -23,7 +29,6 @@ import java.text.SimpleDateFormat;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Date;
-import java.util.logging.Handler;
 
 public class MainActivity extends Activity implements SensorEventListener {
 
@@ -86,6 +91,40 @@ public class MainActivity extends Activity implements SensorEventListener {
         } else {
             // fail
         }
+
+        // Acquire a reference to the system Location Manager
+        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+
+        // Define a listener that responds to location updates
+        LocationListener locationListener = new LocationListener() {
+            public void onLocationChanged(Location location) {
+                // Called when a new location is found by the network location provider.
+//                makeUseOfNewLocation(location);
+                Log.d("latitude", "" +location.getLatitude());
+                Log.d("longitude", "" + location.getLongitude());
+
+            }
+
+            public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+            public void onProviderEnabled(String provider) {}
+
+            public void onProviderDisabled(String provider) {}
+        };
+
+        Context context = this;
+        PackageManager pm = context.getPackageManager();
+        int hasPerm = pm.checkPermission(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                context.getPackageName());
+        if (hasPerm != PackageManager.PERMISSION_GRANTED) {
+            // do stuff
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+        }
+
+        // Register the listener with the Location Manager to receive location updates
+
+
 
         //Query at every ELAPSED_TIME_THRESHOLD ms
         state = "Stop";
