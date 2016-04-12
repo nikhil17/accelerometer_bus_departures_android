@@ -9,11 +9,32 @@
         <dex dex="/Users/nikhil/Classes/Spring_2016/VIP/accelerometer/app/build/intermediates/pre-dexed/flavor/debug/classes-4e85d423045c90298e0ed58490b776c4a523b1dd.jar" />
     </item>
     <item
-        jar="/Users/nikhil/Classes/Spring_2016/VIP/accelerometer/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.0/jars/classes.jar"
+        jar="/Users/nikhil/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.1.0/support-annotations-23.1.0.jar"
         jumboMode="false"
         revision="23.0.1"
-        sha1="ddde541c289c8b816a8f8fd6c325d80788c522a6">
-        <dex dex="/Users/nikhil/Classes/Spring_2016/VIP/accelerometer/app/build/intermediates/pre-dexed/flavor/debug/classes-f1d7e1bd24a46c8ff2b709fc50156d7119811a89.jar" />
+        sha1="92e3fc113ec3ee36b64603a38857b95700025633">
+        <dex dex="/Users/nikhil/Classes/Spring_2016/VIP/accelerometer/app/build/intermediates/pre-dexed/flavor/debug/support-annotations-23.1.0-98922113c6640cc4669c539c7b60488b70258cbf.jar" />
+    </item>
+    <item
+        jar="/Users/nikhil/Classes/Spring_2016/VIP/accelerometer/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-location/8.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="a8412b654dab86d57bf90683367488211c8a81f1">
+        <dex dex="/Users/nikhil/Classes/Spring_2016/VIP/accelerometer/app/build/intermediates/pre-dexed/flavor/debug/classes-8eb2186c3f4832f572631aee372b0ad7e3ae46e8.jar" />
+    </item>
+    <item
+        jar="/Users/nikhil/Classes/Spring_2016/VIP/accelerometer/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="fef2b3e4b6b1b0e5fe7b69fa137a5fa55a3182ab">
+        <dex dex="/Users/nikhil/Classes/Spring_2016/VIP/accelerometer/app/build/intermediates/pre-dexed/flavor/debug/classes-c9bfeac1448aad0e9046c8c6ab4b750d040678cc.jar" />
+    </item>
+    <item
+        jar="/Users/nikhil/Classes/Spring_2016/VIP/accelerometer/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.0/jars/libs/internal_impl-23.1.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="8716243bf04bae8d6c9ca94d27b9a9be7236f0a3">
+        <dex dex="/Users/nikhil/Classes/Spring_2016/VIP/accelerometer/app/build/intermediates/pre-dexed/flavor/debug/internal_impl-23.1.0-338ce87f6ce1c394149a072de2cf001ecba801f8.jar" />
     </item>
     <item
         jar="/Users/nikhil/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-math3/3.6/825c90790e83af784be1de0a3f3a9f066cf884b9/commons-math3-3.6.jar"
@@ -23,18 +44,25 @@
         <dex dex="/Users/nikhil/Classes/Spring_2016/VIP/accelerometer/app/build/intermediates/pre-dexed/flavor/debug/commons-math3-3.6-2e0516cb3425368ff078db81b7a818228d4671d7.jar" />
     </item>
     <item
-        jar="/Users/nikhil/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.1.0/support-annotations-23.1.0.jar"
+        jar="/Users/nikhil/Classes/Spring_2016/VIP/accelerometer/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.4.0/jars/classes.jar"
         jumboMode="false"
         revision="23.0.1"
-        sha1="92e3fc113ec3ee36b64603a38857b95700025633">
-        <dex dex="/Users/nikhil/Classes/Spring_2016/VIP/accelerometer/app/build/intermediates/pre-dexed/flavor/debug/support-annotations-23.1.0-98922113c6640cc4669c539c7b60488b70258cbf.jar" />
+        sha1="8e673cdfadd8f2d98fdb2fda2285c30f6e449782">
+        <dex dex="/Users/nikhil/Classes/Spring_2016/VIP/accelerometer/app/build/intermediates/pre-dexed/flavor/debug/classes-368d01cff47fd45b288db678a184840f5d259b97.jar" />
     </item>
     <item
-        jar="/Users/nikhil/Classes/Spring_2016/VIP/accelerometer/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.0/jars/libs/internal_impl-23.1.0.jar"
+        jar="/Users/nikhil/Classes/Spring_2016/VIP/accelerometer/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/8.4.0/jars/classes.jar"
         jumboMode="false"
         revision="23.0.1"
-        sha1="8716243bf04bae8d6c9ca94d27b9a9be7236f0a3">
-        <dex dex="/Users/nikhil/Classes/Spring_2016/VIP/accelerometer/app/build/intermediates/pre-dexed/flavor/debug/internal_impl-23.1.0-338ce87f6ce1c394149a072de2cf001ecba801f8.jar" />
+        sha1="04de44f90606c77f3b28cf44861f306290505aac">
+        <dex dex="/Users/nikhil/Classes/Spring_2016/VIP/accelerometer/app/build/intermediates/pre-dexed/flavor/debug/classes-eaac91016d8c9464e957b2bb19e9fa2a4aaba610.jar" />
+    </item>
+    <item
+        jar="/Users/nikhil/Classes/Spring_2016/VIP/accelerometer/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="ddde541c289c8b816a8f8fd6c325d80788c522a6">
+        <dex dex="/Users/nikhil/Classes/Spring_2016/VIP/accelerometer/app/build/intermediates/pre-dexed/flavor/debug/classes-f1d7e1bd24a46c8ff2b709fc50156d7119811a89.jar" />
     </item>
 
 </items>

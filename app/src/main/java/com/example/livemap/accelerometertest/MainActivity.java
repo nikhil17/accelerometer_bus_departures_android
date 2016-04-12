@@ -14,6 +14,7 @@ import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 
 
@@ -26,21 +27,22 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
-//
-//import com.google.android.gms.common.ConnectionResult;
-//import com.google.android.gms.common.api.GoogleApiClient;
-//import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
-//import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
-//import com.google.android.gms.location.LocationServices;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
+import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+import com.google.android.gms.location.LocationServices;
 
 import java.text.SimpleDateFormat;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Date;
 
-public class MainActivity extends Activity implements SensorEventListener {
+public class MainActivity extends AppCompatActivity implements SensorEventListener, ConnectionCallbacks, OnConnectionFailedListener {
 
     private SensorManager sensorManager;
     private Sensor accelerometer;
@@ -81,7 +83,10 @@ public class MainActivity extends Activity implements SensorEventListener {
     private String LOG = "MainActivity-log";
     VectorComputation vc;
     private Location location;
+    protected Location mLastLocation;
 
+
+    protected GoogleApiClient mGoogleApiClient;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -94,6 +99,7 @@ public class MainActivity extends Activity implements SensorEventListener {
         vc = new VectorComputation();
         dbw.getWritableDatabase();
 
+        buildGoogleApiClient();
         //Motion sensor
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         if (sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null) {
@@ -105,7 +111,6 @@ public class MainActivity extends Activity implements SensorEventListener {
         }
 
 
-
         // Acquire a reference to the system Location Manager
         LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
@@ -114,16 +119,19 @@ public class MainActivity extends Activity implements SensorEventListener {
             public void onLocationChanged(Location location) {
                 // Called when a new location is found by the network location provider.
 //                makeUseOfNewLocation(location);
-                Log.d("latitude", "" +location.getLatitude());
+                Log.d("latitude", "" + location.getLatitude());
                 Log.d("longitude", "" + location.getLongitude());
 
             }
 
-            public void onStatusChanged(String provider, int status, Bundle extras) {}
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+            }
 
-            public void onProviderEnabled(String provider) {}
+            public void onProviderEnabled(String provider) {
+            }
 
-            public void onProviderDisabled(String provider) {}
+            public void onProviderDisabled(String provider) {
+            }
         };
 
         Context context = this;
@@ -137,7 +145,6 @@ public class MainActivity extends Activity implements SensorEventListener {
         }
 
         // Register the listener with the Location Manager to receive location updates
-
 
 
         //Query at every ELAPSED_TIME_THRESHOLD ms
@@ -251,8 +258,7 @@ public class MainActivity extends Activity implements SensorEventListener {
                             public void onClick(DialogInterface dialog, int which) {
                                 try {
                                     sample_rate = Integer.parseInt(input.getText().toString());
-                                }
-                                catch(NumberFormatException nf){
+                                } catch (NumberFormatException nf) {
                                     new AlertDialog.Builder(MainActivity.this)
                                             .setTitle("Error")
                                             .setMessage("Bad input passed in")
@@ -405,7 +411,7 @@ public class MainActivity extends Activity implements SensorEventListener {
             accelerationY = 0;
         else
             changed = true;
-        if(Math.abs(accelerationZ) < NOISE_THRESHOLD)
+        if (Math.abs(accelerationZ) < NOISE_THRESHOLD)
             accelerationZ = 0;
         else
             changed = false;
@@ -415,19 +421,17 @@ public class MainActivity extends Activity implements SensorEventListener {
 //            state = "Constant acceleration";
 //        }
 
-        if(accelerationX == 0 && accelerationY == 0 && accelerationZ == 0){
+        if (accelerationX == 0 && accelerationY == 0 && accelerationZ == 0) {
             state = "Constant acceleration";
-        }
-        else if(vc.containsZeroVector()){
+        } else if (vc.containsZeroVector()) {
 //            Log.d("Contains zero vector :", "" + vc.containsZeroVector());
 //            Log.d(LOG,"current jostle index :" + jostle_index);
-            if(jostle_index > JOSTLE_INDEX_LOWER_BOUND && jostle_index < JOSTLE_INDEX_UPPER_BOUND){
+            if (jostle_index > JOSTLE_INDEX_LOWER_BOUND && jostle_index < JOSTLE_INDEX_UPPER_BOUND) {
                 state = "Departing";
-                Log.d(LOG,"ACCELERATING FROM START RIGHT NOW!!");
+                Log.d(LOG, "ACCELERATING FROM START RIGHT NOW!!");
 //                System.out.println("YOOOOO");
             }
-        }
-        else{
+        } else {
             state = "Randomly Accelerating";
         }
 
@@ -445,6 +449,80 @@ public class MainActivity extends Activity implements SensorEventListener {
         currentY.setText(String.format("%.2f", accelerationY));
         currentZ.setText(String.format("%.2f", accelerationZ));
         stateTextView.setText(state);
+    }
+
+    protected synchronized void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.disconnect();
+        }
+    }
+
+    /**
+     * Runs when a GoogleApiClient object successfully connects.
+     */
+    @Override
+    public void onConnected(Bundle connectionHint) {
+        // Provides a simple way of getting a device's location and is well suited for
+        // applications that do not require a fine-grained location and that do not need location
+        // updates. Gets the best and most recent location currently available, which may be null
+        // in rare cases when a location is not available.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    public void requestPermissions(@NonNull String[] permissions, int requestCode)
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for Activity#requestPermissions for more details.
+                return;
+            }
+        }
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        if (mLastLocation != null) {
+            Log.d("longitude -", ""+mLastLocation.getLongitude());
+            Log.d("longitude -", "" + mLastLocation.getLatitude());
+
+//
+//            mLatitudeText.setText(String.format("%s: %f", mLatitudeLabel,
+//                    mLastLocation.getLatitude()));
+//            mLongitudeText.setText(String.format("%s: %f", mLongitudeLabel,
+//                    mLastLocation.getLongitude()));
+        } else {
+            Log.d(LOG, "No location detected");
+        }
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult result) {
+        // Refer to the javadoc for ConnectionResult to see what error codes might be returned in
+        // onConnectionFailed.
+        Log.i(LOG, "Connection failed: ConnectionResult.getErrorCode() = " + result.getErrorCode());
+    }
+
+
+    @Override
+    public void onConnectionSuspended(int cause) {
+        // The connection to Google Play services was lost for some reason. We call connect() to
+        // attempt to re-establish the connection.
+        Log.i(LOG, "Connection suspended");
+        mGoogleApiClient.connect();
     }
 
 }
