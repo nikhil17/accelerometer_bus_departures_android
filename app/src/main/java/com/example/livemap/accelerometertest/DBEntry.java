@@ -17,12 +17,19 @@ public class DBEntry {
     private float Z_acceleration;
     private float jostle_index;
 
-    public DBEntry(String time, String state, boolean isDeparting, int sampleRate, double noiseThreshold,float X_acceleration, float Y_acceleration, float Z_acceleration, float jostle_index){
+
+
+    private double longitude;
+    private double latitude;
+
+    public DBEntry(String time, String state, boolean isDeparting, int sampleRate, double noiseThreshold, double latitude, double longitude, float X_acceleration, float Y_acceleration, float Z_acceleration, float jostle_index){
         this.time = time;
         this.state = state;
         this.isDeparting = isDeparting;
         this.sampleRate = sampleRate;
         this.noiseThreshold = noiseThreshold;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.X_acceleration = X_acceleration;
         this.Y_acceleration = Y_acceleration;
         this.Z_acceleration = Z_acceleration;
@@ -56,6 +63,14 @@ public class DBEntry {
 
     public void setisDeparting(boolean isDeparting) {
         this.isDeparting = isDeparting;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
     }
 
 

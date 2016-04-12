@@ -10,6 +10,12 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.widget.Toast;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class DatabaseWrapper extends SQLiteOpenHelper {
 
@@ -21,6 +27,8 @@ public class DatabaseWrapper extends SQLiteOpenHelper {
     private static final String IS_DEPARTING =  "IS_DEPARTING";
     private static final String SAMPLE_RATE =  "SAMPLE_RATE";
     private static final String NOISE_THRESHOLD =  "NOISE_THRESHOLD";
+    private static final String LATITUDE = "LATITUDE";
+    private static final String LONGITUDE = "LONGITUDE";
     private static final String X_ACCELERATION =  "x_acceleration";
     private static final String Y_ACCELERATION =  "y_acceleration";
     private static final String Z_ACCELERATION =  "z_acceleration";
@@ -37,7 +45,7 @@ public class DatabaseWrapper extends SQLiteOpenHelper {
     // creation SQLite statement
     private static final String DATABASE_CREATE = "create table " + TABLE_NAME
             + "(" + TIME + " TEXT primary key not null, "+ STATE +" Text not null, "+IS_DEPARTING +" INT not null," + SAMPLE_RATE +
-            " INT not null, "+ NOISE_THRESHOLD+ " REAL not null, " +X_ACCELERATION+ " REAL not null, " +Y_ACCELERATION+ " REAL not null, "+ Z_ACCELERATION+
+            " INT not null, "+ NOISE_THRESHOLD+ " REAL not null, " + LATITUDE+ " REAL not null, " + LONGITUDE+ " REAL not null, " +X_ACCELERATION+ " REAL not null, " +Y_ACCELERATION+ " REAL not null, "+ Z_ACCELERATION+
             " REAL not null, " + JOSTLE_INDEX+" REAL);";
 
     // create table Recordings(Time TEXT primary key not null, State Text not null, isDeparting INT not null,
@@ -64,7 +72,7 @@ public class DatabaseWrapper extends SQLiteOpenHelper {
     }
 
     public void printTables(SQLiteDatabase db){
-        Cursor test = db.query(TABLE_NAME,null,null,null,null,null,null);
+        Cursor test = db.query(TABLE_NAME, null, null, null, null, null, null);
         String[] columns = test.getColumnNames();
         Log.d(LOG, "Getting column names");
         for(String col:columns){
@@ -78,12 +86,14 @@ public class DatabaseWrapper extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
 
-        Log.d(LOG,"inserting new value into database");
+        Log.d(LOG, "inserting new value into database");
         values.put(TIME, entry.getTime());
         values.put(STATE, entry.getState());
         values.put(IS_DEPARTING,(entry.isDeparting())? 1:0);
         values.put(SAMPLE_RATE,entry.getSampleRate());
         values.put(NOISE_THRESHOLD,entry.getNoiseThreshold());
+        values.put(LATITUDE,entry.getLatitude());
+        values.put(LONGITUDE,entry.getLongitude());
         values.put(X_ACCELERATION, entry.getX_acceleration());
         values.put(Y_ACCELERATION, entry.getY_acceleration());
         values.put(Z_ACCELERATION, entry.getZ_acceleration());
@@ -95,16 +105,61 @@ public class DatabaseWrapper extends SQLiteOpenHelper {
     }
 
     public void logRecordings(){
+        Log.d(LOG, "Logging entire database table");
         String myQuery = "SELECT * FROM "+ TABLE_NAME;
         SQLiteDatabase db = this.getWritableDatabase();
+        if (db!=null) {
 
-        Cursor cursor = db.rawQuery(myQuery,null);
-        Log.d(LOG, "Logging entire database table");
+            Cursor cursor = db.rawQuery(myQuery, null);
 
-        if(cursor.moveToFirst()){
-            while(cursor.moveToNext()){
-                Log.d("DatabaseWrapper", DatabaseUtils.dumpCurrentRowToString(cursor));
+
+            if (cursor.moveToFirst()) {
+                while (cursor.moveToNext()) {
+                    Log.d("DatabaseWrapper", DatabaseUtils.dumpCurrentRowToString(cursor));
+                }
             }
+        }
+        else
+            Log.d(LOG,"DATABASE IS NULL!!!!");
+
+        dbCopy();
+
+    }
+
+    public void dbCopy(){
+        File f=new File("/data/data/com.example.livemap.accelerometertest/databases/accelerometer_readings.db");
+        FileInputStream fis=null;
+        FileOutputStream fos=null;
+
+        try
+        {
+            fis=new FileInputStream(f);
+            fos=new FileOutputStream("/sdcard/db_dump.db", false);
+            while(true)
+            {
+                int i=fis.read();
+                if(i!=-1)
+                {fos.write(i);}
+                else
+                {break;}
+            }
+            fos.flush();
+            Log.d("DB", "DUMP OKAY!! :)");
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Log.d("DB", "DUMP failed");
+        }
+        finally
+        {
+            try
+            {
+                fos.close();
+                fis.close();
+            }
+            catch(IOException ioe)
+            {}
         }
 
     }
